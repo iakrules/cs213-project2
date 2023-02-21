@@ -8,7 +8,7 @@ import java.util.Scanner;
  *
  * @author Ishaan Keswani, Akhil Thalasila
  */
-public class RosterManager {
+public class TuitionManager {
 
     // CHECK THIS incomplete
     public void run() {
@@ -17,7 +17,7 @@ public class RosterManager {
 
             Date today = new Date();
             Roster fin = new Roster();
-            File texts = new File("Project1TestCases.txt");
+            File texts = new File("Project2TestCases.txt");
             Scanner scan = new Scanner(texts);
             int count = 1;
             while (true) {
@@ -28,7 +28,6 @@ public class RosterManager {
                     // use add method
                     Date newDate = new Date(elements[3]);
                     Profile prof = new Profile(elements[2], elements[1], newDate);
-                    Major majors = creator(elements[4]);
                     // System.out.println("ELEMENTS" + elements[5]);
                     for (int j = 0; j < elements.length; j++) {
                         // System.out.println(elements[j]);
@@ -61,20 +60,8 @@ public class RosterManager {
                         System.out.println("Student roster is empty!");
                     }
                     Date place = new Date(elements[3]);
-                    Profile profs = new Profile(elements[2], elements[1], place);
-                    Student stud = new Student(profs);
-                    fin.remove(stud);
                 } else if (elements[0].equals("C")) {
-                    // 0: C 1: First 2: Last 3: DOB 4: Major
 
-                    Major majo = creator(elements[4]);
-                    if (majo == null) {
-                        System.out.println("invalid major");
-                        continue;
-                    }
-                    Date place = new Date(elements[3]);
-                    Profile profs = new Profile(elements[2], elements[1], place);
-                    fin.changeMaj(profs, majo);
                 } else if (elements[0].equals("L")) {
 
                 } else if (elements[0].equals("Q")) {
@@ -87,23 +74,6 @@ public class RosterManager {
         } catch (FileNotFoundException e) {
 
         }
-    }
-
-    private Major creator(String maj) {
-        Major majo = null;
-        if (maj.equals("CS")) {
-            majo = Major.CS;
-        } else if (maj.equals("EE")) {
-            majo = Major.EE;
-        } else if (maj.equals("MATH")) {
-            // ITI BAIT
-            majo = Major.MATH;
-        } else if (maj.equals("ITI")) {
-            majo = Major.ITI;
-        } else {
-            majo = Major.BAIT;
-        }
-        return majo;
     }
 
     private String strips(String init) {

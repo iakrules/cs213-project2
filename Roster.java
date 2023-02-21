@@ -75,10 +75,6 @@ public class Roster {
         return true;
     }
 
-    public boolean change(Profile profile, Major maj) {
-        return true;
-    }
-
     public boolean contains(Student student) {
         for (int i = 0; i < this.size; i++) {
             if (this.roster[i].equals(student)) {
@@ -105,7 +101,7 @@ public class Roster {
         // print roster sorted by standing
     }
 
-    public boolean changeMaj(Profile prof, Major maj) {
+    public boolean changeMaj(Profile prof) {
         Student stud = new Student(prof);
         int pos = this.find(stud);
         if (pos != -1) {
@@ -115,7 +111,6 @@ public class Roster {
             System.out.println("Changemaj fail: student not in array");
             return false;
         } else {
-            this.roster[pos].setMajor(maj);
             System.out.println(this.roster[pos].toString());
             return true;
         }
