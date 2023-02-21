@@ -2,15 +2,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-/**
- * First, a single, very descriptive sentence describing the class.
- * Then, additional lines of description to elaborate the details if necessary.
- *
- * @author Ishaan Keswani, Akhil Thalasila
- */
 public class TuitionManager {
 
-    // CHECK THIS incomplete
     public void run() {
         try {
             System.out.println("Roster Manager running...");
