@@ -121,7 +121,7 @@ public class Roster {
     }
 
     public boolean changeMaj(Profile prof, Major maj) {
-        Student stud = new Student(prof);
+        Resident stud = new Resident(prof);
         int pos = this.find(stud);
         if (pos == -1) {
             return false;

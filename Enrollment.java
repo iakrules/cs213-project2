@@ -50,15 +50,17 @@ public class Enrollment {
     public void remove(EnrollStudent enrollStudent) {
         int pos = this.find(enrollStudent);
         if (pos == -1) {
-            System.out.println("Student not in Roster!");
+            System.out.println("Student not in Enrollment!");
             return;
         }
-
-        for (int i = pos; i < this.size - 1; i++) {
-            this.enrollStudents[i] = this.enrollStudents[i + 1];
+        if(pos == this.size-1){
+            this.enrollStudents[pos] = null;
+            this.size -= 1;
+            return;
         }
+        this.enrollStudents[pos] = this.enrollStudents[this.size-1];
+        this.enrollStudents[this.size-1] = null;
         this.size -= 1;
-        return;
     }
 
     public boolean contains(EnrollStudent enrollStudent) {
@@ -76,4 +78,7 @@ public class Enrollment {
             System.out.println(this.enrollStudents[i].toString());
         }
     } // print the array as is without sorting
+    public int getSize(){
+        return this.size;
+    }
 }
