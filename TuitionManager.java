@@ -15,44 +15,34 @@ public class TuitionManager {
                 wow = strips(wow);
                 String[] elements = wow.split(" ");
                 if (elements[0].equals("AR")) {
-                    Date newDate = new Date(elements[3]);
-                    if (!newDate.isValid()) {
-                        System.out.println("DOB invalid: " + newDate.toString() + " not a valid calendar date!");
+                    if(elements.length != 6){
+                        System.out.println("Not enough information in AR command");
                         continue;
                     }
-                    Profile prof = new Profile(elements[2], elements[1], newDate);
-                    Major majors = creator(elements[4]);
-                    if (majors == null) {
-                        System.out.println("Major code invalid: " + elements[4]);
-                        continue;
-                    }
-                    boolean isBad = false;
-                    for (int i = 0; i < elements[5].length(); i++) {
-                        if (Character.isAlphabetic(elements[5].charAt(i))) {
-                            isBad = true;
-                            break;
-                        }
-                    }
-                    if (isBad) {
-                        System.out.println("Credits completed invalid: not an integer!");
-                        continue;
-                    }
-                    if (Integer.parseInt(elements[5]) < 0) {
-                        System.out.println("Credits completed invalid: cannot be negative!");
-                        continue;
-                    }
-                    Resident ptr = new Resident(prof, majors, Integer.parseInt(elements[5]));
-                    if (fin.contains(ptr)) {
-                        System.out.println(ptr.getProfile().toString() + " is already in the roster.");
+                    Resident ptr = (Resident)makeStud(elements[1], elements[2], elements[3], elements[4], elements[5], "R");
+                    if(ptr == null){
                         continue;
                     }
                     boolean isAdded = fin.add(ptr);
-                    if (!ptr.getProfile().getdob().checkSixteen()) {
-                        System.out.println(
-                                "DOB invalid: " + ptr.getProfile().getdob().toString() + " younger than 16 years old.");
+                    if (isAdded) {
+                        System.out.println(ptr.getProfile().toString() + " added to the roster");
+                    }
+                }else if (elements[0].equals("AT")){
+                    //AT Emma Miller 2/28/2003 CS 15 NY
+                    //0: command 1: First name 2: Last name 3: dob 4: major 5: Credits 6: State
+                    if(elements.length != 7){
+                        System.out.println("Not enough information in AR command");
                         continue;
                     }
-                    if (isAdded) {
+                    TriState ptr = (TriState)makeStud(elements[1], elements[2], elements[3], elements[4], elements[5], "T");
+                    if(ptr == null){
+                        continue;
+                    }
+                    if(!elements[6].equals("NY")  || !elements[6].equals("NJ") || !elements[6].equals("CT")){
+                        System.out.println("Not a val");
+                    }
+                    boolean isAdded = fin.add(ptr);
+                    if(isAdded){
                         System.out.println(ptr.getProfile().toString() + " added to the roster");
                     }
                 } else if (elements[0].equals("P")) {
@@ -165,6 +155,51 @@ public class TuitionManager {
             }
         }
         return init;
+    }
+    private Student makeStud(String element1, String element2, String element3, String element4, String element5, String code){
+        Date newDate = new Date(element3);
+        if (!newDate.isValid()) {
+            System.out.println("DOB invalid: " + newDate.toString() + " not a valid calendar date!");
+            return null;
+        }
+        Profile prof = new Profile(element2, element1, newDate);
+        Major majors = creator(element4);
+        if (majors == null) {
+            System.out.println("Major code invalid: " + element4);
+            return null;
+        }
+        boolean isBad = false;
+        for (int i = 0; i < element5.length(); i++) {
+            if (Character.isAlphabetic(element5.charAt(i))) {
+                isBad = true;
+                break;
+            }
+        }
+        if (isBad) {
+            System.out.println("Credits completed invalid: not an integer!");
+            return null;
+        }
+        if (Integer.parseInt(element5) < 0) {
+            System.out.println("Credits completed invalid: cannot be negative!");
+            return null;
+        }
+        Student ptr;
+        if(code.equals("R")){
+            ptr = new Resident(prof, majors, Integer.parseInt(element5));
+
+        } else if (code.equals("T")){
+            ptr = new TriState(prof, majors, Integer.parseInt(element5));
+        } else if (code.equals("I")){
+            ptr = new International(prof, majors, Integer.parseInt(element5));
+        } else {
+            ptr = new NonResident(prof, majors, Integer.parseInt(element5));
+        }
+        if (!ptr.getProfile().getdob().checkSixteen()) {
+            System.out.println(
+                    "DOB invalid: " + ptr.getProfile().getdob().toString() + " younger than 16 years old.");
+            return null;
+        }
+        return ptr;
     }
 
 }

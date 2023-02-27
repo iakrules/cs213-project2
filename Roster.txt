@@ -220,3 +220,39 @@ public class Roster {
     }
 
 }
+Date newDate = new Date(elements[3]);
+                    if (!newDate.isValid()) {
+                        System.out.println("DOB invalid: " + newDate.toString() + " not a valid calendar date!");
+                        continue;
+                    }
+                    Profile prof = new Profile(elements[2], elements[1], newDate);
+                    Major majors = creator(elements[4]);
+                    if (majors == null) {
+                        System.out.println("Major code invalid: " + elements[4]);
+                        continue;
+                    }
+                    boolean isBad = false;
+                    for (int i = 0; i < elements[5].length(); i++) {
+                        if (Character.isAlphabetic(elements[5].charAt(i))) {
+                            isBad = true;
+                            break;
+                        }
+                    }
+                    if (isBad) {
+                        System.out.println("Credits completed invalid: not an integer!");
+                        continue;
+                    }
+                    if (Integer.parseInt(elements[5]) < 0) {
+                        System.out.println("Credits completed invalid: cannot be negative!");
+                        continue;
+                    }
+                    Resident ptr = new Resident(prof, majors, Integer.parseInt(elements[5]));
+                    if (fin.contains(ptr)) {
+                        System.out.println(ptr.getProfile().toString() + " is already in the roster.");
+                        continue;
+                    }
+                    if (!ptr.getProfile().getdob().checkSixteen()) {
+                        System.out.println(
+                                "DOB invalid: " + ptr.getProfile().getdob().toString() + " younger than 16 years old.");
+                        continue;
+                    }
