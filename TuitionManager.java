@@ -27,6 +27,21 @@ public class TuitionManager {
                     if (isAdded) {
                         System.out.println(ptr.getProfile().toString() + " added to the roster");
                     }
+                } else if (elements[0].equals("AN")){
+                    //AN Leo Jones 4/21/2006 ITI 20
+                    //0: command 1: First name 2: Last name 3: dob 4: major 5: Credits
+                    if(elements.length != 6){
+                        System.out.println("Not enough information in AR command");
+                        continue;
+                    }
+                    NonResident ptr = (NonResident)makeStud(elements[1], elements[2], elements[3], elements[4], elements[5], "N");
+                    if(ptr == null){
+                        continue;
+                    }
+                    boolean isAdded = fin.add(ptr);
+                    if(isAdded){
+                        System.out.println(ptr.getProfile().toString() + " added to the roster");
+                    }
                 }else if (elements[0].equals("AT")){
                     //AT Emma Miller 2/28/2003 CS 15 NY
                     //0: command 1: First name 2: Last name 3: dob 4: major 5: Credits 6: State
@@ -52,7 +67,7 @@ public class TuitionManager {
                         System.out.println("Not enough information in AI command");
                         continue;
                     }
-                    International ptr = (International) makeStud(elements[1], elements[2], elements[3], elements[4], elements[5], "T");
+                    International ptr = (International) makeStud(elements[1], elements[2], elements[3], elements[4], elements[5], "I");
                     if(ptr == null){
                         continue;
                     }
@@ -162,6 +177,84 @@ public class TuitionManager {
                                 double tuition = fin.getStud(j).tuitionDue(cred);
                                 System.out.println(enroll.getEnrolledStudents(i) + " Tuition = " + tuition);
                             }
+                        }
+                    }
+                } else if (elements[0].equals("LS")){
+                    File mext = new File(elements[1]);
+                    Scanner scanner = new Scanner(mext);
+                    while(true){
+                        String wows = scanner.nextLine();
+                        String[] element = wows.split(",");
+                        if(element[0].equals("R")){
+                            if(element.length != 6){
+                                System.out.println("Not enough information in AR command");
+                                continue;
+                            }
+                            Resident ptr = (Resident)makeStud(element[1], element[2], element[3], element[4], element[5], "R");
+                            if(ptr == null){
+                                continue;
+                            }
+                            boolean isAdded = fin.add(ptr);
+                            if(isAdded){
+                                System.out.println(ptr.getProfile().toString() + " added to the roster");
+                            }
+                        } else if (element[0].equals("I")){
+                            if(element.length != 7 && element.length != 6){
+                                System.out.println("Not enough information in AI command");
+                                continue;
+                            }
+                            International ptr = (International) makeStud(element[1], element[2], element[3], element[4], element[5], element[0]);
+                            if(ptr == null){
+                                continue;
+                            }
+                            if(element.length == 6){
+                                ptr.setStudyAbroad(false);
+                            } else {
+                                if(element[6].equals("true")){
+
+                                } else if(element[6].equals("false")){
+                                    ptr.setStudyAbroad(false);
+                                } else{
+                                    System.out.println("not a valid boolean");
+                                }
+                            }
+                            boolean isAdded = fin.add(ptr);
+                            if(isAdded){
+                                System.out.println(ptr.getProfile().toString() + " added to the roster");
+                            }
+                        } else if (element[0].equals("T")){
+                            if(element.length != 7){
+                                System.out.println("Not enough information in T command");
+                                continue;
+                            }
+                            TriState ptr = (TriState)makeStud(element[1], element[2], element[3], element[4], element[5], "T");
+                            if(ptr == null){
+                                continue;
+                            }
+                            if(!element[6].equals("NY")  || !element[6].equals("NJ") || !element[6].equals("CT")){
+                                System.out.println("Not a val");
+                            }
+                            boolean isAdded = fin.add(ptr);
+                            if(isAdded){
+                                System.out.println(ptr.getProfile().toString() + " added to the roster");
+                            }
+                        } else if (element[0].equals("N")){
+                            if(element.length != 6){
+                                System.out.println("Not enough information in AR command");
+                                continue;
+                            }
+                            NonResident ptr = (NonResident)makeStud(element[1], element[2], element[3], element[4], element[5], "N");
+                            if(ptr == null){
+                                continue;
+                            }
+                            boolean isAdded = fin.add(ptr);
+                            if(isAdded){
+                                System.out.println(ptr.getProfile().toString() + " added to the roster");
+                            }
+                        }
+                        if(!scanner.hasNextLine()){
+                            System.out.println("Students loaded in");
+                            break;
                         }
                     }
                 } else if (elements[0].equals("")) {
