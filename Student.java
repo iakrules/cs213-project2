@@ -4,6 +4,9 @@ public abstract class Student implements Comparable<Student> {
     private Major major;
     private int creditCompleted;
     public abstract double tuitionDue(int creditsEnrolled); // polymorphism
+    private static final int fresh = 30;
+    private static final int soph = 60;
+    private static final int jun = 90;
 
     public abstract boolean isResident(); // polymorphism
 
@@ -81,5 +84,16 @@ public abstract class Student implements Comparable<Student> {
     }
     public Major getMajor(){
         return this.major;
+    }
+    public String getStanding(){
+        if(this.creditCompleted < fresh){
+            return "FRESH";
+        } else if (this.creditCompleted < soph){
+            return "SOPH";
+        } else if (this.creditCompleted < jun){
+            return "JUN";
+        } else {
+            return "SEN";
+        }
     }
 }

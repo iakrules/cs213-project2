@@ -45,7 +45,47 @@ public class TuitionManager {
                     if(isAdded){
                         System.out.println(ptr.getProfile().toString() + " added to the roster");
                     }
-                } else if (elements[0].equals("P")) {
+                } else if (elements[0].equals("AI")){
+                    //AI Oliver Chang 11/30/2000 BAIT 78 true
+                    //0: command 1: First name 2: Last name 3: dob 4: major 5: Credits 6: Isstudyabroad
+                    if(elements.length != 7 && elements.length != 6){
+                        System.out.println("Not enough information in AI command");
+                        continue;
+                    }
+                    International ptr = (International) makeStud(elements[1], elements[2], elements[3], elements[4], elements[5], "T");
+                    if(ptr == null){
+                        continue;
+                    }
+                    if(elements.length == 6){
+                        ptr.setStudyAbroad(false);
+                    } else {
+                        if(elements[6].equals("true")){
+
+                        } else if(elements[6].equals("false")){
+                            ptr.setStudyAbroad(false);
+                        } else{
+                            System.out.println("not a valid boolean");
+                        }
+                    }
+                    boolean isAdded = fin.add(ptr);
+                    if(isAdded){
+                        System.out.println(ptr.getProfile().toString() + " added to the roster");
+                    }
+                }else if (elements[0].equals("D")) {
+                String fname = elements[1];
+                String lname = elements[2];
+                Date dob = new Date(elements[3]);
+
+                Profile nProfile = new Profile(fname, lname, dob);
+                if (!enroll.isEnrolled(nProfile)) {
+                    System.out.println(nProfile.toString() + " is not enrolled");
+                    return;
+                }
+
+                int index = enroll.fProfile(nProfile);
+                enroll.remove(enroll.getEnrolledStudents(index));
+                System.out.println(nProfile.toString() + " dropped");
+            } else if (elements[0].equals("P")) {
                     if (fin.getSize() <= 0) {
                         System.out.println("Student roster is empty!");
                         continue;
@@ -102,6 +142,28 @@ public class TuitionManager {
                 } else if (elements[0].equals("Q")) {
                     System.out.println("Roster Manager Terminated");
                     break;
+                }else if(elements[0].equals("S")){
+                    //give scholarship
+                    //input S Roy Brooks 9/9/1999 10000
+                    Date dob = new Date(elements[3]);
+                    Profile prof = new Profile(elements[2], elements[1], dob);
+                    fin.giveScholarship(prof, Integer.parseInt(elements[4]));
+                }else if(elements[0].equals("PE")){
+                    if(enroll.getSize() == 0){
+                        System.out.println("No Students currently enrolled");
+                    }
+                    enroll.print();
+                }else if(elements[0].equals("PT")){
+                    for(int i = 0; i < enroll.getSize(); i++){
+                        Profile prof = enroll.getEnrolledStudents(i).getProfile();
+                        int cred = enroll.getEnrolledStudents(i).returnCredits();
+                        for(int j = 0; j < fin.getSize(); j++){
+                            if(fin.getStud(j).getProfile().equals(prof)){
+                                double tuition = fin.getStud(j).tuitionDue(cred);
+                                System.out.println(enroll.getEnrolledStudents(i) + " Tuition = " + tuition);
+                            }
+                        }
+                    }
                 } else if (elements[0].equals("")) {
                     continue;
                 } else {

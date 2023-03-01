@@ -62,6 +62,27 @@ public class Enrollment {
         this.enrollStudents[this.size-1] = null;
         this.size -= 1;
     }
+    public boolean isEnrolled(Profile profile) {
+        for (int i = 0; i < size; i++) {
+            if (enrollStudents[i].getProfile().equals(profile)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int fProfile(Profile profile) {
+        for (int i = 0; i < size; i++) {
+            if (enrollStudents[i].getProfile().equals(profile)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public EnrollStudent getEnrolledStudents(int i) {
+        return enrollStudents[i];
+    }
 
     public boolean contains(EnrollStudent enrollStudent) {
         for (int i = 0; i < this.size; i++) {
@@ -73,12 +94,18 @@ public class Enrollment {
     }
 
     public void print() {
-        System.out.println("size of roster =" + this.size);
+        System.out.println("size of enrollment =" + this.size);
         for (int i = 0; i < this.size; i++) {
             System.out.println(this.enrollStudents[i].toString());
         }
     } // print the array as is without sorting
     public int getSize(){
         return this.size;
+    }
+    public void printTuitions(){
+        for(int i = 0; i < this.size; i++){
+            Profile prof = this.enrollStudents[i].getProfile();
+
+        }
     }
 }

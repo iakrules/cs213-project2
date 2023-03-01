@@ -117,7 +117,40 @@ public class Roster {
     } // print roster sorted by school major
 
     public void printByStanding() {
-        // print roster sorted by standing
+        int stand = 0;
+        String[] order = {"FRESH", "JUN", "SEN", "SOPH"};
+        boolean change = false;
+        for(int i = 0; i < this.size; i++){//loops through
+            if(stand == 3){
+                break;
+            }
+            if(this.roster[i].getStanding().equals(order[stand])){
+                continue;
+            } else {
+                for(int j = i; j < this.size; j++){
+                    if(this.roster[j].getStanding().equals((order[stand]))){
+                        for(int k = j; k > i; k--){
+                            Student ptr = this.roster[k];
+                            this.roster[k] = this.roster[k-1];
+                            this.roster[k-1] = ptr;
+                        }
+                        if(j == this.size-1){
+                            change = true;
+                        }
+                        break;
+                    } else if (j == this.size-1){
+                        change = true;
+                        break;
+                    }
+                }
+                if(change){
+                    stand += 1;
+                }
+            }
+        }
+    }
+    public Student getStud(int i){
+        return this.roster[i];
     }
 
     public boolean changeMaj(Profile prof, Major maj) {
@@ -131,6 +164,15 @@ public class Roster {
             }
             this.roster[pos].setMajor(maj);
             return true;
+        }
+    }
+    public void giveScholarship(Profile prof, int scholarship){
+        Resident stud = new Resident(prof);
+        int pos = this.find(stud);
+        if(this.roster[pos].isResident()){
+            Resident res = (Resident)this.roster[pos];
+            res.setScholarship(scholarship);
+            this.roster[pos] = res;
         }
     }
 

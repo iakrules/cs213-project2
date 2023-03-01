@@ -8,7 +8,12 @@ public class EnrollStudent {
     public int returnCredits(){
         return this.creditsEnrolled;
     }
+
+    public boolean isPartTimeStudent() {
+        return returnCredits() < 12;
+    }
     public String toString(){
         return this.profile.toString() + ": credits enrolled: " + this.creditsEnrolled;
     }
+
 }
