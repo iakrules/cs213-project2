@@ -182,15 +182,15 @@ public class TuitionManager {
                 } else if (elements[0].equals("SE")) {
                     System.out.println("*** list of students eligible for graduation ***");
                     int creditsToGraduate = 120;
-                    for (int i = 0; i < enroll.getSize(); i++) {
+                    for (int i = 0; i < fin.getSize(); i++) {
                         Profile nProfile = enroll.getEnrolledStudents(i).getProfile();
                         int creditsEnrolled = enroll.getEnrolledStudents(i).returnCredits();
 
-                        int index = enroll.fProfile(nProfile);
-                        int creditsCompleted = enroll.getEnrolledStudents(index).returnCredits();
+                        int index = fin.fProfile(nProfile);
+                        int creditsCompleted = fin.getStud(index).getCreditCompleted();
                         creditsCompleted = creditsCompleted + creditsEnrolled;
                         if (creditsCompleted >= creditsToGraduate) {
-                            System.out.println(enroll.getEnrolledStudents(index).toString());
+                            System.out.println(fin.getStud(index).toString());
                         }
                     }
                     System.out.println("** end of the list of students eligible for graduation **");
@@ -238,6 +238,41 @@ public class TuitionManager {
                             if(isAdded){
                                 System.out.println(ptr.getProfile().toString() + " added to the roster");
                             }
+                        } else if (element[0].equals("E")) {
+                            int numberOfCredits = 0;
+                            String fname = elements[1];
+                            String lname = elements[2];
+                            Date dob = new Date(elements[3]);
+                            Profile userProfile = new Profile(fname, lname, dob);
+                            try {
+                                numberOfCredits = Integer.parseInt(elements[4]);
+                                int index = enroll.fProfile(userProfile);
+                                if(index == -1) { System.out.println("Cannot enroll: " + userProfile.toString() + " is not in the roster"); return; }
+                                Student userStudent = fin.getStud(index);
+                                if (userStudent instanceof International) {
+                                    International internationalStudent = (International) userStudent;
+                                    if (!internationalStudent.isValid(numberOfCredits)) {
+                                        if (internationalStudent.isStudyAbroad()) {
+                                            System.out.println(internationalStudent.printInternationalStudyAbroad() + " " + numberOfCredits +  ": invalid credit hours");
+                                            return;
+                                        }
+                                        System.out.println(userStudent.printObjectName() + " " + numberOfCredits + ": invalid credit hours"); return; }
+                                } else {
+                                    if (!userStudent.isValid(numberOfCredits)) { System.out.println(userStudent.printObjectName() + " " + numberOfCredits + ": invalid credit hours"); return; }
+                                }
+                            } catch (NumberFormatException ex) { System.out.println("Credits enrolled is not an integer."); return; }
+                            catch (ArrayIndexOutOfBoundsException a) { System.out.println("Missing data in line command."); return; }
+                            Profile newProfile = new Profile(fname, lname, dob);
+                            EnrollStudent nStudent = new EnrollStudent(newProfile, numberOfCredits);
+                            int indexInEnroll = enroll.fProfile(newProfile);
+
+                            if(indexInEnroll != -1) {
+                                enroll.getEnrolledStudents(indexInEnroll).setCreditCompleted(numberOfCredits);
+                                System.out.println(newProfile.toString() + " enrolled " + numberOfCredits + " credits");
+                                return;
+                            }
+                            enroll.add(nStudent);
+                            System.out.println(newProfile.toString() + " enrolled " + numberOfCredits + " credits");
                         } else if (element[0].equals("T")){
                             if(element.length != 7){
                                 System.out.println("Not enough information in T command");

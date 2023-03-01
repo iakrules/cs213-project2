@@ -39,4 +39,6 @@ public class International extends NonResident{
         return this.isStudyAbroad;
     }
 
+    public String printInternationalStudyAbroad() {return "(International Study Abroad)";}
+
 }

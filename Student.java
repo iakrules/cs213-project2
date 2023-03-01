@@ -96,4 +96,8 @@ public abstract class Student implements Comparable<Student> {
             return "SEN";
         }
     }
+
+    public String printObjectName() {
+        return "(Student)";
+    }
 }

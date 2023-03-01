@@ -9,6 +9,15 @@ public class EnrollStudent {
         return this.creditsEnrolled;
     }
 
+    public void setCreditCompleted(int creditsEnrolled) {
+        this.creditsEnrolled = creditsEnrolled;
+    }
+
+    public EnrollStudent(Profile profile,int creditsEnrolled) {
+        this.profile = profile;
+        this.creditsEnrolled = creditsEnrolled;
+    }
+
     public boolean isPartTimeStudent() {
         return returnCredits() < 12;
     }
