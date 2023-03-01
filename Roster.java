@@ -257,6 +257,15 @@ public class Roster {
 
     }
 
+    public int fProfile(Profile profile) {
+        for (int index = 0; index < size; index++) {
+            if (profile.equals(roster[index].getProfile())) {
+                return index;
+            }
+        }
+        return -1;
+    }
+
     public int getSize() {
         return this.size;
     }

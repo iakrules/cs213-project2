@@ -86,7 +86,7 @@ public class TuitionManager {
                     if(isAdded){
                         System.out.println(ptr.getProfile().toString() + " added to the roster");
                     }
-                }else if (elements[0].equals("D")) {
+                } else if (elements[0].equals("D")) {
                 String fname = elements[1];
                 String lname = elements[2];
                 Date dob = new Date(elements[3]);
@@ -179,6 +179,22 @@ public class TuitionManager {
                             }
                         }
                     }
+                } else if (elements[0].equals("SE")) {
+                    System.out.println("*** list of students eligible for graduation ***");
+                    int creditsToGraduate = 120;
+                    for (int i = 0; i < enroll.getSize(); i++) {
+                        Profile nProfile = enroll.getEnrolledStudents(i).getProfile();
+                        int creditsEnrolled = enroll.getEnrolledStudents(i).returnCredits();
+
+                        int index = enroll.fProfile(nProfile);
+                        int creditsCompleted = enroll.getEnrolledStudents(index).returnCredits();
+                        creditsCompleted = creditsCompleted + creditsEnrolled;
+                        if (creditsCompleted >= creditsToGraduate) {
+                            System.out.println(enroll.getEnrolledStudents(index).toString());
+                        }
+                    }
+                    System.out.println("** end of the list of students eligible for graduation **");
+
                 } else if (elements[0].equals("LS")){
                     File mext = new File(elements[1]);
                     Scanner scanner = new Scanner(mext);
