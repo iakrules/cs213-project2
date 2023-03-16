@@ -1,7 +1,7 @@
 /**
  * Contains all majors with their corresponding class codes and schools.
  * Values are called using the following format:
- * "Major.<SUBJECT>.<CODE/SCHOOL>".
+ * "Major.SUBJECT.CODE/SCHOOL".
  *
  * @author Ishaan Keswani, Akhil Thalasila
  */

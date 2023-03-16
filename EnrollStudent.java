@@ -1,25 +1,20 @@
+/**
+ * COMMENT
+ *
+ * @author Ishaan Keswani, Akhil Thalasila
+ */
 public class EnrollStudent {
     private Profile profile;
     private int creditsEnrolled;
-
+    public EnrollStudent(Profile profile, int creditsEnrolled) {
+        this.profile = profile;
+        this.creditsEnrolled = creditsEnrolled;
+    }
     public Profile getProfile() {
         return this.profile;
     }
     public int returnCredits(){
         return this.creditsEnrolled;
-    }
-
-    public void setCreditCompleted(int creditsEnrolled) {
-        this.creditsEnrolled = creditsEnrolled;
-    }
-
-    public EnrollStudent(Profile profile,int creditsEnrolled) {
-        this.profile = profile;
-        this.creditsEnrolled = creditsEnrolled;
-    }
-
-    public boolean isPartTimeStudent() {
-        return returnCredits() < 12;
     }
     @Override
     public boolean equals(Object obj) {
@@ -29,9 +24,16 @@ public class EnrollStudent {
         }
         return false;
     }
-
-    @Override
-    public String toString() {
+    public boolean isPartTimeStudent() {
+        return returnCredits() < 12;
+    }
+    public String toString(){
         return this.profile.toString() + ": credits enrolled: " + this.creditsEnrolled;
     }
+    public void setCreditCompleted(int creditsEnrolled) {
+        this.creditsEnrolled = creditsEnrolled;
+    }
+
+
+
 }
